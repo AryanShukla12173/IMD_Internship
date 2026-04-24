@@ -1,15 +1,16 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from enum import Enum
 class userRole(Enum):
-    USER = 'user',
+    USER = 'user'
     ADMIN = 'admin'
     
-class User(BaseModel):
+class UserRequest(BaseModel):
     full_name : str
-    user_name : str
     email : str
-    password : str
+    password : str = Field(max_length=72)
     role: userRole = userRole.USER
-    access_token : str
-    refresh_token : str 
+    
+class Token(BaseModel):
+    access_token: str
+    token_type : str
     
