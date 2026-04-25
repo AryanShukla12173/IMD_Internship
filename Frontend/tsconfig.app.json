@@ -20,8 +20,7 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    // For shadcn 
-    "baseUrl": ".",
+    // TypeScript now resolves paths relative to the tsconfig file, baseUrl is no longer needed
     "paths": {
       "@/*": [
         "./src/*"
