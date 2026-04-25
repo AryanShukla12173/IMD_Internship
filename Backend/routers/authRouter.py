@@ -74,7 +74,7 @@ async def login_for_access_token(
             httponly=True, 
             max_age=20*60, # 20 minutes in seconds
             samesite="lax",
-            secure=True  
+            secure=False # Set to True only when using HTTPS in production
         )
         
         response.set_cookie(
@@ -83,7 +83,7 @@ async def login_for_access_token(
             httponly=True,
             max_age=7*24*60*60, # 7 days
             samesite="lax",
-            secure=True
+            secure=False # Set to True only when using HTTPS in production
         )
         
         # We return a generic success message instead of the raw tokens in the JSON body.
@@ -139,4 +139,25 @@ async def logout(
         raise
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+
+@router.get("/verify", status_code=status.HTTP_200_OK)
+async def verify_token(request: Request):
+    """
+    Endpoint to verify if the user is currently authenticated via the HTTPOnly access_token cookie.
+    Used by the frontend to protect routes.
+    """
+    try:
+        token = request.cookies.get("access_token")
+        if not token:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated")
+            
+        token_clean = token.replace("Bearer ", "")
+        payload = jwt.decode(token_clean, SECRET_KEY, algorithms=[ALGORITHM]) # type: ignore
+        email = payload.get("email")
+        if not email:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+            
+        return {"email": email, "status": "authenticated"}
+    except Exception:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid or expired token")
 
