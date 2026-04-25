@@ -5,7 +5,7 @@ from sqlalchemy import String
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
-from Models.authSchema import userRole
+from DB.models.authSchema import userRole
 from DB.connectDB import DB
 Base = DB().Base
 

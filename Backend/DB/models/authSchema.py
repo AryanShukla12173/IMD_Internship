@@ -7,10 +7,14 @@ class userRole(Enum):
 class UserRequest(BaseModel):
     full_name : str
     email : str
-    password : str = Field(max_length=72)
+    password : str = Field(min_length=8)
     role: userRole = userRole.USER
-    
-class Token(BaseModel):
+
+class UserwithToken(UserRequest):
     access_token: str
-    token_type : str
+    refresh_token: str
+
     
+class UserLoginRequest(BaseModel):
+    email: str
+    password: str
