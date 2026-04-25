@@ -11,7 +11,7 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const location = useLocation()
   
   if (isLoading) return <div className="flex min-h-svh items-center justify-center"><p className="animate-pulse text-muted-foreground">Loading...</p></div>
-  if (!isAuthenticated) return <Navigate to="/auth" state={{ from: location }} replace />
+  if (!isAuthenticated) return <Navigate to="/login" state={{ from: location }} replace />
   
   return children
 }
@@ -27,8 +27,8 @@ const GuestRoute = ({ children }: { children: JSX.Element }) => {
 
 // Global array configuration for all routes
 const publicRoutes = [
-  { path: "/", element: <Navigate to="/auth" replace /> },
-  { path: "/auth", element: <AuthPage /> },
+  { path: "/", element: <Navigate to="/login" replace /> },
+  { path: "/login", element: <AuthPage /> },
 ]
 
 const protectedRoutes = [
