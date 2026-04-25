@@ -21,7 +21,7 @@ class userService():
         except Exception as e:
             print(f"Error in Finding User : {str(e)}")
             raise e
-    def updateUser(self,user_obj : User) -> bool:
+    def update_user(self,user_obj : User) -> bool:
         try:
             if self.userRepo.update_user(user_obj).id:
                 return True

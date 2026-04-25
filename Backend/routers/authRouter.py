@@ -63,7 +63,7 @@ async def login_for_access_token(
         # Store tokens in DB via user_service
         user.access_token = access_token
         user.refresh_token = refresh_token
-        user_service.updateUser(user)
+        user_service.update_user(user)
 
         # 4. Handle Storing Tokens Safely
         # The safest way for a web client is to store it in an HttpOnly cookie so JS can't access it (to prevent XSS).
@@ -126,7 +126,7 @@ async def logout(
                     if user:
                         user.access_token = None
                         user.refresh_token = None
-                        user_service.updateUser(user)
+                        user_service.update_user(user)
             except Exception:
                 pass  # Even if token is expired/invalid, we still want to clear the cookies
         
